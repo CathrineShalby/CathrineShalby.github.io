@@ -6,3 +6,5 @@ theme: minima
 # social_links:
 #   linkedin: https://linkedin.com/in/cathrineshalby
 #   instagram: https://instagram.com/rawshrimps
+sass:
+  sass_dir: assets/css
