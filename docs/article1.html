@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What is Self-Supervised Learning? - Cathrine Shalby</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="./css/theme.min.css">
+    <script defer src="assets/js/common.js"></script>
+</head>
+
+<body data-bs-spy="scroll" data-bs-target="#navScroll">
+
+    <!-- Dynamic Header -->
+    <div id="header"></div>
+
+    <main>
+        <div class="container py-vh-5">
+            <article>
+                <h1 class="display-4 fw-bold mb-4">What is Self-Supervised Learning?</h1>
+                <p class="text-muted">Published by Cathrine Shalby ⋄ February 2025</p>
+
+                <p class="lead">Self-supervised learning (SSL) is a technique that is transforming the way machines learn by allowing models to generate their own labels from unlabeled data. This emerging approach lies between supervised and unsupervised learning, creating new possibilities for training AI systems at scale without costly human-labeled datasets.</p>
+
+                <h2 class="fw-bold mt-4">Why Self-Supervised Learning Matters</h2>
+                <p>Traditionally, supervised learning has driven most of the major breakthroughs in machine learning, from image classification to natural language processing. However, supervised models require vast amounts of labeled data, which can be expensive and time-consuming to collect. In contrast, self-supervised learning reduces the dependency on human annotations, making it scalable for real-world applications.</p>
+
+                <p>Consider tasks like speech recognition or video understanding, where labeling every frame or audio snippet would take enormous effort. SSL automates this process by allowing the model to label parts of the input data based on hidden patterns within the data itself. This enables systems to train on massive datasets without manual effort.</p>
+
+                <h2 class="fw-bold mt-4">How Does Self-Supervised Learning Work?</h2>
+                <p>The core idea behind self-supervised learning involves using pretext tasks to teach the model about underlying structures in the data. Pretext tasks are artificial tasks designed to predict certain parts of the data given other parts.</p>
+
+                <h3 class="fw-semibold">Key Techniques in SSL</h3>
+                <ul class="list-unstyled">
+                    <li><strong>Masked Language Modeling:</strong> Popularized by models like BERT, this technique involves masking words within a sentence and training the model to predict them based on context.</li>
+                    <li><strong>Contrastive Learning:</strong> Used in computer vision models like SimCLR, this technique teaches the model to distinguish between similar and dissimilar images by comparing them.</li>
+                    <li><strong>Predictive Coding:</strong> The model predicts future frames in videos or the next token in sequences, capturing temporal and structural dependencies.</li>
+                </ul>
+
+                <h2 class="fw-bold mt-4">Applications of Self-Supervised Learning</h2>
+                <p>SSL is already driving advancements in multiple fields:</p>
+
+                <ul class="list-unstyled">
+                    <li><strong>Natural Language Processing:</strong> Models like BERT, GPT, and T5 rely on self-supervised pre-training to understand complex linguistic patterns.</li>
+                    <li><strong>Computer Vision:</strong> Self-supervised methods improve object recognition, segmentation, and video analysis by learning spatial and temporal patterns.</li>
+                    <li><strong>Healthcare:</strong> Self-supervised models analyze medical imaging (e.g., X-rays, MRIs) without needing labeled datasets, accelerating diagnoses.</li>
+                </ul>
+
+                <h2 class="fw-bold mt-4">Challenges and Future Directions</h2>
+                <p>Despite its advantages, SSL faces challenges. The design of pretext tasks significantly impacts performance, and selecting the wrong task could lead to suboptimal outcomes. Additionally, SSL models require large computational resources for training, similar to large-scale supervised models.</p>
+
+                <p>Researchers are exploring hybrid approaches combining supervised and self-supervised methods to strike the perfect balance between data efficiency and performance. In the future, SSL could become the backbone of general-purpose AI systems capable of learning multiple tasks with minimal human supervision.</p>
+
+                <h2 class="fw-bold mt-4">Key Takeaways</h2>
+                <ul>
+                    <li>SSL bridges the gap between supervised and unsupervised learning by generating its own labels from raw data.</li>
+                    <li>Pretext tasks like masked language modeling and contrastive learning help models identify patterns without manual annotations.</li>
+                    <li>SSL powers advances in NLP, computer vision, and healthcare while reducing data labeling costs.</li>
+                    <li>Challenges remain in optimizing pretext tasks and handling the computational demands of large-scale SSL training.</li>
+                </ul>
+
+                <p class="mt-4">As AI continues to evolve, self-supervised learning offers a glimpse into a future where machines can teach themselves more efficiently, democratizing access to powerful AI models across industries.</p>
+
+                <div class="mt-5">
+                    <a href="blog.html" class="btn btn-primary">Back to Blog</a>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <!-- Dynamic Footer -->
+    <div id="footer"></div>
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
