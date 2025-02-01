@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What are Vector Embeddings? - Cathrine Shalby</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="./css/theme.min.css">
+    <script defer src="assets/js/common.js"></script>
+</head>
+
+<body data-bs-spy="scroll" data-bs-target="#navScroll">
+
+    <!-- Dynamic Header -->
+    <div id="header"></div>
+
+    <main>
+        <div class="container py-vh-5">
+            <article>
+                <h1 class="display-4 fw-bold mb-4">What are Vector Embeddings and Why Do They Matter in AI?</h1>
+                <p class="text-muted">Published by Cathrine Shalby ⋄ February 2025</p>
+
+                <p class="lead">At the heart of many breakthroughs in AI, from natural language processing to recommendation systems, lies an essential concept: vector embeddings. But what exactly are they, and how do they power some of today’s most advanced AI systems?</p>
+
+                <h2 class="fw-bold mt-4">The Basics: What Are Vector Embeddings?</h2>
+                <p>Simply put, a vector embedding is a way to represent data—whether it’s a word, an image, or a user profile—as a fixed-length numerical vector. These vectors encapsulate meaningful relationships in a high-dimensional space, making it easier for machine learning models to learn patterns and associations.</p>
+
+                <p>For example, in natural language processing (NLP), a word like “cat” can be represented as a vector, and the model learns that its embedding should be closer to “dog” than to “car” in the vector space. The idea is to embed similar items close to each other, allowing models to generalize better.</p>
+
+                <h2 class="fw-bold mt-4">Why Vector Embeddings Are Important</h2>
+                <p>One of the core challenges in machine learning is converting raw data into a form that models can process effectively. Traditional data formats like text or images are too complex for models to understand directly. Vector embeddings provide a bridge between raw data and model-friendly representations by capturing the essential structure and relationships in the data.</p>
+
+                <ul class="list-unstyled">
+                    <li><strong>Dimensionality Reduction:</strong> Embeddings reduce high-dimensional input (e.g., text or pixels) into more manageable representations, improving computational efficiency.</li>
+                    <li><strong>Context Awareness:</strong> In NLP, word embeddings like those produced by Word2Vec or GloVe capture contextual meaning, enabling models to differentiate between different usages of the same word (e.g., “bank” as a financial institution vs. “bank” of a river).</li>
+                    <li><strong>Similarity Measurement:</strong> Embeddings enable models to measure how closely related two pieces of data are by calculating the distance between their vectors.</li>
+                </ul>
+
+                <h2 class="fw-bold mt-4">How Are Vector Embeddings Created?</h2>
+                <p>The process of creating embeddings depends on the type of data and task at hand. Let’s look at some common methods:</p>
+
+                <h3 class="fw-semibold">1. Word Embeddings (NLP)</h3>
+                <p>Models like Word2Vec, GloVe, and FastText generate word embeddings by analyzing large text corpora. They rely on the idea that words appearing in similar contexts should have similar embeddings. For example, in Word2Vec’s skip-gram model, the network predicts the context words given a target word, iteratively refining the embedding until it captures semantic meaning.</p>
+
+                <h3 class="fw-semibold">2. Image Embeddings</h3>
+                <p>For images, embeddings are often extracted from deep learning models like Convolutional Neural Networks (CNNs). A common approach involves using a pretrained model (e.g., ResNet or VGG) and taking the output of an intermediate layer as the embedding for an image. This representation preserves the high-level features (such as edges, textures, and shapes) that are important for downstream tasks like classification or object detection.</p>
+
+                <h3 class="fw-semibold">3. User Embeddings (Recommendation Systems)</h3>
+                <p>Recommendation engines use embeddings to represent both users and items in the same vector space. For instance, models like matrix factorization decompose user-item interaction matrices into low-dimensional vectors, enabling the system to predict which items a user might like based on similar users or items.</p>
+
+                <h2 class="fw-bold mt-4">Applications of Vector Embeddings</h2>
+                <p>Vector embeddings are widely used across different domains. Here are a few notable examples:</p>
+
+                <ul class="list-unstyled">
+                    <li><strong>Search Engines:</strong> Search engines use vector embeddings to understand user queries and match them to relevant documents or web pages. Semantic search relies heavily on embeddings to find results based on meaning rather than keyword matching.</li>
+                    <li><strong>Recommendation Systems:</strong> Platforms like Netflix and Spotify recommend movies and songs by measuring the distance between user and item embeddings, suggesting content with the closest match.</li>
+                    <li><strong>Fraud Detection:</strong> Financial institutions use embeddings to identify patterns in transactions, flagging anomalies that may indicate fraud.</li>
+                </ul>
+
+                <h2 class="fw-bold mt-4">Challenges and Considerations</h2>
+                <p>Despite their effectiveness, vector embeddings are not without challenges. High-dimensional vectors can be computationally expensive to store and process, especially in large-scale applications. Additionally, embeddings learned from biased data can inherit and amplify those biases, leading to unintended consequences (e.g., discriminatory search results or recommendations).</p>
+
+                <p>Mitigating these challenges often involves techniques like dimensionality reduction (e.g., PCA or t-SNE) and careful training data selection to minimize biases.</p>
+
+                <h2 class="fw-bold mt-4">Conclusion</h2>
+                <p>Vector embeddings are an essential component of modern machine learning systems. By transforming complex data into numerical vectors, they allow models to make meaningful predictions and recommendations. As AI systems grow more sophisticated, embeddings will continue to play a critical role in bridging the gap between raw data and intelligent decision-making.</p>
+
+                <div class="mt-5">
+                    <a href="blog.html" class="btn btn-primary">Back to Blog</a>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <!-- Dynamic Footer -->
+    <div id="footer"></div>
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
