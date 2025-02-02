@@ -1,23 +1,29 @@
-// Function to fetch and inject header with scripts
 function loadHeaderWithScripts(componentId, filePath) {
-    fetch(filePath)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Failed to fetch ${filePath}: ${response.statusText}`);
-            }
-            return response.text();
-        })
-        .then(data => {
-            const container = document.getElementById(componentId);
-            container.innerHTML = data;
+    document.addEventListener('DOMContentLoaded', () => {
+        const container = document.getElementById(componentId);
 
-            // Execute both inline and external scripts
-            executeScripts(container);
-        })
-        .catch(error => console.error('Error loading header:', error));
+        if (!container) {
+            console.error(`Error: No container found with id "${componentId}"`);
+            return;
+        }
+
+        fetch(filePath)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch ${filePath}: ${response.statusText}`);
+                }
+                return response.text();
+            })
+            .then(data => {
+                container.innerHTML = data;
+
+                // Execute both inline and external scripts
+                executeScripts(container);
+            })
+            .catch(error => console.error('Error loading component:', error));
+    });
 }
 
-// Function to re-execute scripts
 function executeScripts(container) {
     const scripts = container.querySelectorAll('script');
 
@@ -32,7 +38,5 @@ function executeScripts(container) {
     });
 }
 
-// Load header on page load
-document.addEventListener('DOMContentLoaded', () => {
-    loadHeaderWithScripts('header', 'header.html');
-});
+// Load the header
+loadHeaderWithScripts('header', 'header.html');
