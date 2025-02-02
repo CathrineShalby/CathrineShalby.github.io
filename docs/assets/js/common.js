@@ -9,14 +9,14 @@ function includeHTML(componentId, filePath) {
         })
         .then(data => {
             document.getElementById(componentId).innerHTML = data;
-            console.log(`[includeHTML] Successfully loaded ${filePath}.`);
+            // console.log(`[includeHTML] Successfully loaded ${filePath}.`);
         })
         .catch(error => console.error(`[includeHTML] Error loading component: ${error.message}`));
 }
 
 // Include header and footer dynamically
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('[DOMContentLoaded] DOM fully loaded. Loading common components...');
+    // console.log('[DOMContentLoaded] DOM fully loaded. Loading common components...');
     includeHTML('header', '../../header.html');
     includeHTML('footer', '../../footer.html');
 });
