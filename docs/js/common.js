@@ -1,35 +1,38 @@
-// Function to fetch and inject the header and run its scripts
-function includeHeaderWithScripts(componentId, filePath) {
+// Function to fetch and inject header with scripts
+function loadHeaderWithScripts(componentId, filePath) {
     fetch(filePath)
-        .then(response => response.text())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Failed to fetch ${filePath}: ${response.statusText}`);
+            }
+            return response.text();
+        })
         .then(data => {
             const container = document.getElementById(componentId);
             container.innerHTML = data;
 
-            // Execute external and inline scripts
+            // Execute both inline and external scripts
             executeScripts(container);
         })
         .catch(error => console.error('Error loading header:', error));
 }
 
-// Function to re-execute scripts within the included header
+// Function to re-execute scripts
 function executeScripts(container) {
     const scripts = container.querySelectorAll('script');
 
-    scripts.forEach((script) => {
+    scripts.forEach(script => {
         const newScript = document.createElement('script');
         if (script.src) {
-            // Re-trigger external scripts
             newScript.src = script.src;
         } else {
-            // Re-trigger inline scripts like TokenX.init()
             newScript.textContent = script.innerHTML;
         }
-        document.body.appendChild(newScript);  // Ensure script runs in the DOM context
+        document.body.appendChild(newScript);
     });
 }
 
-// Run header injection on DOMContentLoaded
+// Load header on page load
 document.addEventListener('DOMContentLoaded', () => {
-    includeHeaderWithScripts('header', 'header.html');
+    loadHeaderWithScripts('header', 'header.html');
 });
