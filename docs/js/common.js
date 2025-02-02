@@ -1,33 +1,35 @@
-// Function to fetch and inject the header
-function includeHeader(componentId, filePath) {
+// Function to fetch and inject the header and run its scripts
+function includeHeaderWithScripts(componentId, filePath) {
     fetch(filePath)
         .then(response => response.text())
         .then(data => {
-            document.getElementById(componentId).innerHTML = data;
-            executeInlineScripts(document.getElementById(componentId));
-            console.log("Header included successfully. Running TokenX initialization...");
+            const container = document.getElementById(componentId);
+            container.innerHTML = data;
+
+            // Execute external and inline scripts
+            executeScripts(container);
         })
         .catch(error => console.error('Error loading header:', error));
 }
 
-// Re-execute scripts inside the dynamically included content
-function executeInlineScripts(element) {
-    const scripts = element.querySelectorAll("script");
+// Function to re-execute scripts within the included header
+function executeScripts(container) {
+    const scripts = container.querySelectorAll('script');
 
     scripts.forEach((script) => {
-        const newScript = document.createElement("script");
+        const newScript = document.createElement('script');
         if (script.src) {
-            // External script
+            // Re-trigger external scripts
             newScript.src = script.src;
         } else {
-            // Inline script (e.g., TokenX.init)
-            newScript.textContent = script.textContent;
+            // Re-trigger inline scripts like TokenX.init()
+            newScript.textContent = script.innerHTML;
         }
-        document.body.appendChild(newScript);
+        document.body.appendChild(newScript);  // Ensure script runs in the DOM context
     });
 }
 
-// Ensure scripts execute in the correct order after header loads
+// Run header injection on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
-    includeHeader('header', 'header.html');
+    includeHeaderWithScripts('header', 'header.html');
 });
