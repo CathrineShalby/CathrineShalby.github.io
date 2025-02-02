@@ -1,43 +1,31 @@
-function includeHTML(componentId, filePath) {
+function includeHTMLWithScriptExecution(componentId, filePath) {
     fetch(filePath)
         .then(response => response.text())
-        .then(data => {
+        .then((data) => {
             document.getElementById(componentId).innerHTML = data;
-            executeScriptsSequentially(componentId);
+            executeInlineScripts(document.getElementById(componentId));
         })
         .catch(error => console.error('Error loading component:', error));
 }
 
-function executeScriptsSequentially(componentId) {
-    const container = document.getElementById(componentId);
-    const scripts = container.querySelectorAll('script');
+function executeInlineScripts(element) {
+    const scripts = element.querySelectorAll("script");
 
-    (async function execute() {
-        for (const script of scripts) {
-            if (script.src) {
-                // Handle external scripts dynamically
-                await loadExternalScript(script.src);
-            } else {
-                // Handle inline scripts
-                eval(script.innerHTML);
-            }
+    scripts.forEach((script) => {
+        const newScript = document.createElement("script");
+        if (script.src) {
+            // External script
+            newScript.src = script.src;
+        } else {
+            // Inline script
+            newScript.textContent = script.innerHTML;
         }
-    })();
-}
-
-function loadExternalScript(src) {
-    return new Promise((resolve, reject) => {
-        const script = document.createElement('script');
-        script.src = src;
-        script.type = 'text/javascript';
-        script.onload = resolve;
-        script.onerror = reject;
-        document.head.appendChild(script);
+        document.head.appendChild(newScript);
     });
 }
 
-// Include common components dynamically
+// Include header and footer dynamically
 document.addEventListener('DOMContentLoaded', () => {
-    includeHTML('header', 'header.html');
-    includeHTML('footer', 'footer.html');
+    includeHTMLWithScriptExecution('header', 'header.html');
+    includeHTMLWithScriptExecution('footer', 'footer.html');
 });
