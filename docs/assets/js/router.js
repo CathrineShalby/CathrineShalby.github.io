@@ -1,6 +1,6 @@
 const routes = {
-    "/": "pages/home.html",
-    "/blog": "pages/blog.html",
+    "/": "/index.html",
+    "/blog": "/blog.html",
     "/vector-embedding": "posts/vector-embedding.html",
     "/ssl": "posts/ssl.html",
     "/2025-cyber-trends": "posts/2025-cyber-trends.html",
