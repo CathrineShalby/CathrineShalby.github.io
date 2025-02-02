@@ -3,28 +3,29 @@ function includeHTML(componentId, filePath) {
         .then(response => response.text())
         .then(data => {
             document.getElementById(componentId).innerHTML = data;
-
-            // After header is loaded, initialize TokenX
-            if (componentId === 'header') {
-                loadAndInitTokenX();
-            }
+            executeInlineScripts(componentId);
         })
         .catch(error => console.error('Error loading component:', error));
 }
 
-function loadAndInitTokenX() {
-    // Dynamically load the TokenX library
-    const tokenXScript = document.createElement('script');
-    tokenXScript.src = "https://tokenx.qcri.org/libs/js/tokenx-minified.js";
-    tokenXScript.onload = () => {
-        // Initialize TokenX after the script has fully loaded
-        TokenX.init({
-            userId: 7777,
-            apiBaseUrl: "https://tokenx.qcri.org/api",
-        });
-        console.log("TokenX successfully initialized.");
-    };
-    document.body.appendChild(tokenXScript);
+function executeInlineScripts(componentId) {
+    const container = document.getElementById(componentId);
+    const scripts = container.querySelectorAll('script');
+
+    scripts.forEach(script => {
+        const newScript = document.createElement('script');
+        newScript.type = 'text/javascript';
+
+        if (script.src) {
+            // If it's an external script, re-add it to the DOM
+            newScript.src = script.src;
+        } else {
+            // Inline scripts (like TokenX.init)
+            newScript.textContent = script.innerHTML;
+        }
+
+        document.body.appendChild(newScript);
+    });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
