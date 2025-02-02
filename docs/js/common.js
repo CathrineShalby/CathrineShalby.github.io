@@ -1,42 +1,35 @@
-function loadHeaderWithScripts(componentId, filePath) {
-    document.addEventListener('DOMContentLoaded', () => {
-        const container = document.getElementById(componentId);
-
-        if (!container) {
-            console.error(`Error: No container found with id "${componentId}"`);
-            return;
-        }
-
-        fetch(filePath)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch ${filePath}: ${response.statusText}`);
-                }
-                return response.text();
-            })
-            .then(data => {
-                container.innerHTML = data;
-
-                // Execute both inline and external scripts
-                executeScripts(container);
-            })
-            .catch(error => console.error('Error loading component:', error));
-    });
+function includeHTMLWithScriptExecution(componentId, filePath) {
+    fetch(filePath)
+        .then(response => response.text())
+        .then(data => {
+            const component = document.getElementById(componentId);
+            component.innerHTML = data;
+            executeScriptsWithinHTML(component);
+        })
+        .catch(error => console.error('Error loading component:', error));
 }
 
-function executeScripts(container) {
-    const scripts = container.querySelectorAll('script');
+function executeScriptsWithinHTML(element) {
+    const scripts = element.querySelectorAll('script');
 
     scripts.forEach(script => {
         const newScript = document.createElement('script');
+
         if (script.src) {
+            // For external scripts (like tokenx-minified.js)
             newScript.src = script.src;
+            newScript.async = false; // Ensures correct execution order
         } else {
+            // For inline scripts (like TokenX.init)
             newScript.textContent = script.innerHTML;
         }
-        document.body.appendChild(newScript);
+
+        document.head.appendChild(newScript);
     });
 }
 
-// Load the header
-loadHeaderWithScripts('header', 'header.html');
+// Load header and footer dynamically
+document.addEventListener('DOMContentLoaded', () => {
+    includeHTMLWithScriptExecution('header', 'header.html');
+    includeHTMLWithScriptExecution('footer', 'footer.html');
+});
