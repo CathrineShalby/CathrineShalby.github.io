@@ -3,12 +3,12 @@ function includeHTML(componentId, filePath) {
         .then(response => response.text())
         .then(data => {
             document.getElementById(componentId).innerHTML = data;
-            executeInlineScripts(componentId);
+            executeScripts(componentId);
         })
         .catch(error => console.error('Error loading component:', error));
 }
 
-function executeInlineScripts(componentId) {
+function executeScripts(componentId) {
     const container = document.getElementById(componentId);
     const scripts = container.querySelectorAll('script');
 
@@ -17,8 +17,9 @@ function executeInlineScripts(componentId) {
         newScript.type = 'text/javascript';
 
         if (script.src) {
-            // If it's an external script, re-add it to the DOM
+            // Handle external scripts (like tokenx-minified.js)
             newScript.src = script.src;
+            newScript.onload = () => console.log(`Loaded: ${script.src}`);
         } else {
             // Inline scripts (like TokenX.init)
             newScript.textContent = script.innerHTML;
