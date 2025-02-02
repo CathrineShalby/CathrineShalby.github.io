@@ -1,13 +1,16 @@
-function includeHTMLWithScriptExecution(componentId, filePath) {
+// Function to fetch and inject the header
+function includeHeader(componentId, filePath) {
     fetch(filePath)
         .then(response => response.text())
-        .then((data) => {
+        .then(data => {
             document.getElementById(componentId).innerHTML = data;
             executeInlineScripts(document.getElementById(componentId));
+            console.log("Header included successfully. Running TokenX initialization...");
         })
-        .catch(error => console.error('Error loading component:', error));
+        .catch(error => console.error('Error loading header:', error));
 }
 
+// Re-execute scripts inside the dynamically included content
 function executeInlineScripts(element) {
     const scripts = element.querySelectorAll("script");
 
@@ -17,15 +20,14 @@ function executeInlineScripts(element) {
             // External script
             newScript.src = script.src;
         } else {
-            // Inline script
-            newScript.textContent = script.innerHTML;
+            // Inline script (e.g., TokenX.init)
+            newScript.textContent = script.textContent;
         }
-        document.head.appendChild(newScript);
+        document.body.appendChild(newScript);
     });
 }
 
-// Include header and footer dynamically
+// Ensure scripts execute in the correct order after header loads
 document.addEventListener('DOMContentLoaded', () => {
-    includeHTMLWithScriptExecution('header', 'header.html');
-    includeHTMLWithScriptExecution('footer', 'footer.html');
+    includeHeader('header', 'header.html');
 });
