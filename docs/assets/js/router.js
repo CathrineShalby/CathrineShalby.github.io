@@ -1,9 +1,9 @@
 const routes = {
     "/": "/index.html",
     "/blog": "/blog.html",
-    "/vector-embedding": "posts/vector-embedding.html",
-    "/ssl": "posts/ssl.html",
-    "/2025-cyber-trends": "posts/2025-cyber-trends.html",
+    "/vector-embedding": "/posts/vector-embedding.html",
+    "/ssl": "/posts/ssl.html",
+    "/2025-cyber-trends": "/posts/2025-cyber-trends.html",
   
 };
 
