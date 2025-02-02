@@ -18,36 +18,42 @@ function includeHTMLWithDebugging(componentId, filePath) {
 
 function executeAndLogScripts(container) {
     const scripts = container.querySelectorAll("script");
+    let externalScripts = [];
+
     scripts.forEach((script, index) => {
         const newScript = document.createElement("script");
         if (script.src) {
             newScript.src = script.src;
-            newScript.async = false; // Load synchronously to maintain order
-            newScript.onload = () => {
-                console.log(`[executeScripts] External script loaded (src: ${script.src})`);
-                if (index === scripts.length - 1) {
-                    // Execute inline scripts after the last external script is loaded
-                    executeInlineScripts();
-                }
-            };
+            newScript.async = false; // Ensure proper loading order
+            externalScripts.push(new Promise((resolve) => {
+                newScript.onload = () => {
+                    console.log(`[executeScripts] External script loaded (src: ${script.src})`);
+                    resolve();
+                };
+            }));
         } else {
             newScript.textContent = script.innerHTML;
         }
         document.head.appendChild(newScript);
     });
+
+    // After all external scripts are loaded, execute the inline script
+    Promise.all(externalScripts).then(() => {
+        console.log("[executeScripts] All external scripts loaded. Executing inline scripts...");
+        executeInlineScripts(container);
+    });
 }
 
-function executeInlineScripts() {
-    console.log("[executeScripts] All external scripts loaded. Executing inline scripts...");
-    try {
-        const inlineScript = document.querySelector("#header script:not([src])");
-        if (inlineScript) {
-            eval(inlineScript.innerHTML);  // Caution: Ensure this inline script is safe!
+function executeInlineScripts(container) {
+    const inlineScripts = container.querySelectorAll("script:not([src])");
+    inlineScripts.forEach((script) => {
+        try {
+            eval(script.innerHTML);  // Caution: Ensure the inline script is safe!
             console.log("[executeScripts] Inline script executed successfully.");
+        } catch (e) {
+            console.error("[executeScripts] Error executing inline script:", e);
         }
-    } catch (e) {
-        console.error("[executeScripts] Error executing inline script:", e);
-    }
+    });
 }
 
 // Include header and footer dynamically
