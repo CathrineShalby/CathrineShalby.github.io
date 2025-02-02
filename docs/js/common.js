@@ -54,6 +54,6 @@ function executeAndLogScripts(element) {
 // Load header and footer dynamically
 document.addEventListener('DOMContentLoaded', () => {
     console.log('[DOMContentLoaded] DOM fully loaded. Loading common components...');
-    includeHTMLWithDebugging('header', '../header.html');
-    includeHTMLWithDebugging('footer', '../footer.html');
+    includeHTMLWithDebugging('header', '../../header.html');
+    includeHTMLWithDebugging('footer', '../../footer.html');
 });
