@@ -30,6 +30,6 @@ function executeScriptsWithinHTML(element) {
 
 // Load header and footer dynamically
 document.addEventListener('DOMContentLoaded', () => {
-    includeHTMLWithScriptExecution('header', 'header.html');
-    includeHTMLWithScriptExecution('footer', 'footer.html');
+    includeHTMLWithScriptExecution('header', '../header.html');
+    includeHTMLWithScriptExecution('footer', '../footer.html');
 });
