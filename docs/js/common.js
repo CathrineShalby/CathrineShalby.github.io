@@ -3,32 +3,40 @@ function includeHTML(componentId, filePath) {
         .then(response => response.text())
         .then(data => {
             document.getElementById(componentId).innerHTML = data;
-            executeScripts(componentId);
+            executeScriptsSequentially(componentId);
         })
         .catch(error => console.error('Error loading component:', error));
 }
 
-function executeScripts(componentId) {
+function executeScriptsSequentially(componentId) {
     const container = document.getElementById(componentId);
     const scripts = container.querySelectorAll('script');
 
-    scripts.forEach(script => {
-        const newScript = document.createElement('script');
-        newScript.type = 'text/javascript';
-
-        if (script.src) {
-            // Handle external scripts (like tokenx-minified.js)
-            newScript.src = script.src;
-            newScript.onload = () => console.log(`Loaded: ${script.src}`);
-        } else {
-            // Inline scripts (like TokenX.init)
-            newScript.textContent = script.innerHTML;
+    (async function execute() {
+        for (const script of scripts) {
+            if (script.src) {
+                // Handle external scripts dynamically
+                await loadExternalScript(script.src);
+            } else {
+                // Handle inline scripts
+                eval(script.innerHTML);
+            }
         }
+    })();
+}
 
-        document.body.appendChild(newScript);
+function loadExternalScript(src) {
+    return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = src;
+        script.type = 'text/javascript';
+        script.onload = resolve;
+        script.onerror = reject;
+        document.head.appendChild(script);
     });
 }
 
+// Include common components dynamically
 document.addEventListener('DOMContentLoaded', () => {
     includeHTML('header', 'header.html');
     includeHTML('footer', 'footer.html');
