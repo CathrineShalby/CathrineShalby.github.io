@@ -10,50 +10,54 @@ function includeHTMLWithDebugging(componentId, filePath) {
         })
         .then(data => {
             console.log(`[includeHTML] Successfully loaded ${filePath}. Injecting into #${componentId}...`);
-            const component = document.getElementById(componentId);
-            if (!component) {
-                throw new Error(`Element with ID #${componentId} not found.`);
-            }
-
-            component.innerHTML = data;
-            console.log(`[includeHTML] HTML content injected into #${componentId}.`);
-            executeAndLogScripts(component);
+            document.getElementById(componentId).innerHTML = data;
+            return executeAndLogScripts(document.getElementById(componentId));
         })
-        .catch(error => {
-            console.error(`[includeHTML] Error loading component: ${error}`);
-        });
+        .catch(error => console.error(`[includeHTML] Error loading component:`, error));
 }
 
-function executeAndLogScripts(element) {
-    const scripts = element.querySelectorAll('script');
-
-    if (scripts.length === 0) {
-        console.warn('[executeScripts] No scripts found in the included component.');
-        return;
-    }
+function executeAndLogScripts(container) {
+    const scripts = container.querySelectorAll("script");
+    let externalScripts = [];
 
     scripts.forEach((script, index) => {
-        const newScript = document.createElement('script');
-
+        const newScript = document.createElement("script");
         if (script.src) {
-            console.log(`[executeScripts] Found external script (src: ${script.src}) at index ${index}.`);
             newScript.src = script.src;
-            newScript.async = false; // Ensures correct execution order
+            newScript.async = false; // Ensure proper loading order
+            externalScripts.push(new Promise((resolve) => {
+                newScript.onload = () => {
+                    console.log(`[executeScripts] External script loaded (src: ${script.src})`);
+                    resolve();
+                };
+            }));
         } else {
-            console.log(`[executeScripts] Found inline script at index ${index}.`);
             newScript.textContent = script.innerHTML;
         }
-
-        newScript.onload = () => console.log(`[executeScripts] Script loaded successfully.`);
-        newScript.onerror = () => console.error(`[executeScripts] Script failed to load.`);
-
         document.head.appendChild(newScript);
+    });
+
+    // After all external scripts are loaded, execute the inline script
+    Promise.all(externalScripts).then(() => {
+        console.log("[executeScripts] All external scripts loaded. Executing inline scripts...");
+        executeInlineScripts(container);
     });
 }
 
-// Load header and footer dynamically
+function executeInlineScripts(container) {
+    const inlineScripts = container.querySelectorAll("script:not([src])");
+    inlineScripts.forEach((script) => {
+        try {
+            eval(script.innerHTML);  // Caution: Ensure the inline script is safe!
+            console.log("[executeScripts] Inline script executed successfully.");
+        } catch (e) {
+            console.error("[executeScripts] Error executing inline script:", e);
+        }
+    });
+}
+
+// Include header and footer dynamically
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('[DOMContentLoaded] DOM fully loaded. Loading common components...');
     includeHTMLWithDebugging('header', '../../header.html');
     includeHTMLWithDebugging('footer', '../../footer.html');
 });
